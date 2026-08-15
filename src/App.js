@@ -1,25 +1,75 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {
+  useState,
+  useCallback,
+} from "react";
+
+import Lobby from "./Game/Multiplayer/Lobby";
+import Game from "./Game/Game";
+import MultiplayerController from "./Game/Multiplayer/MultiplayerController";
+
 
 function App() {
+
+  const [gameData, setGameData] =
+    useState(null);
+
+
+  const handleGameStart =
+    useCallback((data) => {
+
+      console.log(
+        "🎮 GAME START:",
+        data
+      );
+
+
+      setGameData(
+        (oldData) => {
+
+          // Prevent duplicate start
+
+          if (oldData) {
+            return oldData;
+          }
+
+          return data;
+        }
+      );
+
+    }, []);
+
+
+  if (!gameData) {
+
+    return (
+      <Lobby
+        onGameStart={
+          handleGameStart
+        }
+      />
+    );
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Game
+  player={
+    gameData.player
+  }
+/>
+
+      <MultiplayerController
+        channel={
+          gameData.channel
+        }
+        player={
+          gameData.player
+        }
+      />
+    </>
   );
 }
+
 
 export default App;
