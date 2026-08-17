@@ -1,4 +1,5 @@
 import React, {
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -6,17 +7,162 @@ import React, {
 import "./MobileJoystick.css";
 
 
+// =====================================================
+// MOBILE JOYSTICK
+// =====================================================
+
 const MobileJoystick = () => {
 
-  const joystickRef =
-    useRef(null);
+  const joystickRef = useRef(null);
 
-  const [active, setActive] =
-    useState(false);
+  const [active, setActive] = useState(false);
 
 
   // =====================================================
-  // JOYSTICK
+  // ORIENTATION
+  // =====================================================
+
+  useEffect(() => {
+
+    const handleResize = () => {
+
+      window.dispatchEvent(
+        new Event("resize")
+      );
+
+    };
+
+    window.addEventListener(
+      "resize",
+      handleResize
+    );
+
+    window.addEventListener(
+      "orientationchange",
+      handleResize
+    );
+
+    return () => {
+
+      window.removeEventListener(
+        "resize",
+        handleResize
+      );
+
+      window.removeEventListener(
+        "orientationchange",
+        handleResize
+      );
+
+    };
+
+  }, []);
+
+
+  // =====================================================
+  // FULLSCREEN
+  // =====================================================
+
+  const enterFullscreen = async () => {
+
+    try {
+
+      const element =
+        document.documentElement;
+
+
+      // ================================================
+      // FULLSCREEN
+      // ================================================
+
+      if (
+        !document.fullscreenElement
+      ) {
+
+        if (
+          element.requestFullscreen
+        ) {
+
+          await element.requestFullscreen();
+
+        }
+
+      }
+
+
+      // ================================================
+      // LANDSCAPE
+      // ================================================
+
+      if (
+        window.screen &&
+        window.screen.orientation &&
+        window.screen.orientation.lock
+      ) {
+
+        try {
+
+          await window.screen.orientation.lock(
+            "landscape"
+          );
+
+          console.log(
+            "📱 Landscape locked"
+          );
+
+        } catch (error) {
+
+          console.log(
+            "⚠️ Landscape lock unavailable:",
+            error
+          );
+
+        }
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        "❌ Fullscreen error:",
+        error
+      );
+
+    }
+
+  };
+
+
+  // =====================================================
+  // EXIT FULLSCREEN
+  // =====================================================
+
+  const exitFullscreen = async () => {
+
+    try {
+
+      if (
+        document.fullscreenElement
+      ) {
+
+        await document.exitFullscreen();
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        "❌ Exit fullscreen error:",
+        error
+      );
+
+    }
+
+  };
+
+
+  // =====================================================
+  // JOYSTICK UPDATE
   // =====================================================
 
   const updateJoystick = (
@@ -58,8 +204,7 @@ const MobileJoystick = () => {
 
 
     const maxDistance =
-      rect.width / 2 -
-      30;
+      rect.width / 2 - 30;
 
 
     const distance =
@@ -70,16 +215,19 @@ const MobileJoystick = () => {
 
 
     if (
-      distance > maxDistance
+      distance > maxDistance &&
+      distance !== 0
     ) {
 
       x =
         (x / distance) *
         maxDistance;
 
+
       y =
         (y / distance) *
         maxDistance;
+
     }
 
 
@@ -92,7 +240,7 @@ const MobileJoystick = () => {
 
 
     // ===================================================
-    // MOVE KNOB
+    // KNOB
     // ===================================================
 
     const knob =
@@ -105,11 +253,12 @@ const MobileJoystick = () => {
 
       knob.style.transform =
         `translate(${x}px, ${y}px)`;
+
     }
 
 
     // ===================================================
-    // SEND EVENT
+    // SEND JOYSTICK EVENT
     // ===================================================
 
     window.dispatchEvent(
@@ -123,6 +272,7 @@ const MobileJoystick = () => {
         }
       )
     );
+
   };
 
 
@@ -130,113 +280,161 @@ const MobileJoystick = () => {
   // START
   // =====================================================
 
-  const handleStart =
-    (event) => {
+  const handleStart = (
+    event
+  ) => {
 
-      event.preventDefault();
+    event.preventDefault();
 
-      setActive(true);
-
-
-      const point =
-        event.touches
-          ? event.touches[0]
-          : event;
+    setActive(true);
 
 
-      updateJoystick(
-        point.clientX,
-        point.clientY
-      );
-    };
+    const point =
+      event.touches
+        ? event.touches[0]
+        : event;
+
+
+    updateJoystick(
+      point.clientX,
+      point.clientY
+    );
+
+  };
 
 
   // =====================================================
   // MOVE
   // =====================================================
 
-  const handleMove =
-    (event) => {
+  const handleMove = (
+    event
+  ) => {
 
-      if (!active) {
-        return;
-      }
-
-
-      event.preventDefault();
+    if (!active) {
+      return;
+    }
 
 
-      const point =
-        event.touches
-          ? event.touches[0]
-          : event;
+    event.preventDefault();
 
 
-      updateJoystick(
-        point.clientX,
-        point.clientY
-      );
-    };
+    const point =
+      event.touches
+        ? event.touches[0]
+        : event;
+
+
+    updateJoystick(
+      point.clientX,
+      point.clientY
+    );
+
+  };
 
 
   // =====================================================
   // END
   // =====================================================
 
-  const handleEnd =
-    (event) => {
+  const handleEnd = (
+    event
+  ) => {
 
+    if (event) {
       event.preventDefault();
-
-      setActive(false);
-
-
-      const knob =
-        joystickRef.current?.querySelector(
-          ".joystick-knob"
-        );
+    }
 
 
-      if (knob) {
-
-        knob.style.transform =
-          "translate(0px, 0px)";
-      }
+    setActive(false);
 
 
-      window.dispatchEvent(
-        new CustomEvent(
-          "joystickmove",
-          {
-            detail: {
-              x: 0,
-              y: 0,
-            },
-          }
-        )
+    const knob =
+      joystickRef.current?.querySelector(
+        ".joystick-knob"
       );
-    };
+
+
+    if (knob) {
+
+      knob.style.transform =
+        "translate(0px, 0px)";
+
+    }
+
+
+    window.dispatchEvent(
+      new CustomEvent(
+        "joystickmove",
+        {
+          detail: {
+            x: 0,
+            y: 0,
+          },
+        }
+      )
+    );
+
+  };
 
 
   // =====================================================
   // JUMP
   // =====================================================
 
-  const jump =
-    (event) => {
+  const jump = (
+    event
+  ) => {
+
+    if (event) {
 
       event.preventDefault();
 
       event.stopPropagation();
 
+    }
 
-      window.dispatchEvent(
-        new Event(
-          "playerjump"
-        )
-      );
-    };
 
+    window.dispatchEvent(
+      new CustomEvent(
+        "player-jump"
+      )
+    );
+
+  };
+
+
+  // =====================================================
+  // FULLSCREEN BUTTON
+  // =====================================================
+
+  const handleFullscreen = async (
+    event
+  ) => {
+
+    event.preventDefault();
+
+    event.stopPropagation();
+
+
+    if (
+      document.fullscreenElement
+    ) {
+
+      await exitFullscreen();
+
+    } else {
+
+      await enterFullscreen();
+
+    }
+
+  };
+
+
+  // =====================================================
+  // RENDER
+  // =====================================================
 
   return (
 
@@ -245,20 +443,64 @@ const MobileJoystick = () => {
     >
 
       {/* ============================================= */}
+      {/* FULLSCREEN */}
+      {/* ============================================= */}
+
+      <button
+        type="button"
+        className="fullscreen-button"
+        onClick={
+          handleFullscreen
+        }
+        aria-label="Fullscreen"
+      >
+
+        {document.fullscreenElement
+          ? "⛶"
+          : "⛶"}
+
+      </button>
+
+
+      {/* ============================================= */}
       {/* JOYSTICK */}
       {/* ============================================= */}
 
       <div
         ref={joystickRef}
         className="joystick"
-        onTouchStart={handleStart}
-        onTouchMove={handleMove}
-        onTouchEnd={handleEnd}
-        onTouchCancel={handleEnd}
-        onMouseDown={handleStart}
-        onMouseMove={handleMove}
-        onMouseUp={handleEnd}
-        onMouseLeave={handleEnd}
+
+        onTouchStart={
+          handleStart
+        }
+
+        onTouchMove={
+          handleMove
+        }
+
+        onTouchEnd={
+          handleEnd
+        }
+
+        onTouchCancel={
+          handleEnd
+        }
+
+        onMouseDown={
+          handleStart
+        }
+
+        onMouseMove={
+          handleMove
+        }
+
+        onMouseUp={
+          handleEnd
+        }
+
+        onMouseLeave={
+          handleEnd
+        }
       >
 
         <div
@@ -273,34 +515,26 @@ const MobileJoystick = () => {
       {/* ============================================= */}
       {/* JUMP */}
       {/* ============================================= */}
-<button
-  className="jump-button"
-  onTouchStart={(e) => {
 
-    e.preventDefault();
+      <button
+        type="button"
+        className="jump-button"
 
-    window.dispatchEvent(
-      new CustomEvent(
-        "player-jump"
-      )
-    );
+        onTouchStart={
+          jump
+        }
 
-  }}
-  onClick={() => {
-
-    window.dispatchEvent(
-      new CustomEvent(
-        "player-jump"
-      )
-    );
-
-  }}
->
-    ↑
-</button>
+        onClick={
+          jump
+        }
+      >
+        ↑
+      </button>
 
     </div>
+
   );
+
 };
 
 

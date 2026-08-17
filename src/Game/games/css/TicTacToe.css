@@ -1,0 +1,868 @@
+/* =====================================================
+   XO OVERLAY
+===================================================== */
+
+.xo-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 20000;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 16px;
+
+  box-sizing: border-box;
+
+  background: rgba(15, 18, 40, 0.65);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+
+/* =====================================================
+   START BOX
+===================================================== */
+
+.xo-start-box {
+
+  position: relative;
+
+  width: min(390px, calc(100vw - 30px));
+
+  padding: 30px 24px 24px;
+
+  box-sizing: border-box;
+
+  border-radius: 28px;
+
+  background: #ffffff;
+
+  text-align: center;
+
+  direction: rtl;
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.3);
+
+  overflow: hidden;
+
+  animation:
+    xoStartIn 0.3s ease;
+}
+
+
+@keyframes xoStartIn {
+
+  from {
+    opacity: 0;
+    transform:
+      translateY(20px)
+      scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+/* =====================================================
+   START LOGO
+===================================================== */
+
+.xo-logo {
+
+  width: 85px;
+  height: 85px;
+
+  margin: 0 auto 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 24px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eeeaff,
+      #f7f5ff
+    );
+
+  font-size: 38px;
+
+  box-shadow:
+    0 10px 25px
+    rgba(108, 99, 255, 0.14);
+}
+
+
+/* =====================================================
+   START TITLE
+===================================================== */
+
+.xo-start-box h2 {
+
+  margin: 0;
+
+  color: #29264f;
+
+  font-size: 30px;
+
+  font-weight: 900;
+}
+
+
+.xo-start-box p {
+
+  margin: 12px 0 22px;
+
+  color: #7b8190;
+
+  font-size: 14px;
+
+  font-weight: 700;
+}
+
+
+/* =====================================================
+   START BUTTON
+===================================================== */
+
+.xo-start-box button {
+
+  width: 100%;
+
+  min-height: 50px;
+
+  box-sizing: border-box;
+
+  border: none;
+
+  border-radius: 15px;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+
+/* START */
+
+.xo-start-box button:first-of-type {
+
+  background:
+    linear-gradient(
+      135deg,
+      #6c63ff,
+      #8e7cff
+    );
+
+  color: white;
+
+  box-shadow:
+    0 9px 20px
+    rgba(108, 99, 255, 0.25);
+}
+
+
+.xo-start-box button:first-of-type:hover {
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 13px 26px
+    rgba(108, 99, 255, 0.32);
+}
+
+
+/* CLOSE */
+
+.xo-start-box .xo-close {
+
+  margin-top: 10px;
+
+  background: #f1f2f6;
+
+  color: #6d7482;
+
+  box-shadow: none;
+}
+
+
+.xo-start-box .xo-close:hover {
+
+  background: #e9eaf0;
+}
+
+
+/* =====================================================
+   ACTUAL XO GAME
+===================================================== */
+
+.xo-game {
+
+  position: relative;
+
+  width: min(410px, calc(100vw - 30px));
+
+  max-height: calc(100dvh - 30px);
+
+  box-sizing: border-box;
+
+  padding: 22px;
+
+  border-radius: 28px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff,
+      #f8f8ff
+    );
+
+  direction: rtl;
+
+  box-shadow:
+    0 25px 80px
+    rgba(0, 0, 0, 0.32);
+
+  overflow-y: auto;
+
+  animation:
+    xoGameIn 0.25s ease;
+}
+
+
+@keyframes xoGameIn {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(20px)
+      scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+/* =====================================================
+   EXIT BUTTON
+===================================================== */
+
+.xo-exit {
+
+  position: absolute;
+
+  top: 14px;
+  left: 14px;
+
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: #f1f2f6;
+
+  color: #73798a;
+
+  font-size: 17px;
+
+  cursor: pointer;
+
+  z-index: 5;
+
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+
+
+.xo-exit:hover {
+
+  background: #ffecec;
+
+  color: #e53935;
+
+  transform:
+    scale(1.05);
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.xo-header {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-bottom: 14px;
+
+  padding-top: 2px;
+}
+
+
+.xo-header > div {
+
+  font-size: 25px;
+}
+
+
+.xo-header h2 {
+
+  margin: 0;
+
+  color: #29264f;
+
+  font-size: 24px;
+
+  font-weight: 900;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.xo-status {
+
+  width: 100%;
+
+  min-height: 44px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  margin-bottom: 16px;
+
+  padding: 10px;
+
+  border-radius: 14px;
+
+  background: #f4f4fb;
+
+  color: #66677c;
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+  text-align: center;
+}
+
+
+.xo-status strong {
+
+  margin: 0 5px;
+
+  color: #6c63ff;
+
+  font-size: 16px;
+}
+
+
+/* =====================================================
+   BOARD
+===================================================== */
+
+.xo-board {
+
+  width: min(330px, 100%);
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 9px;
+
+  box-sizing: border-box;
+}
+
+
+/* =====================================================
+   CELL
+===================================================== */
+
+.xo-cell {
+
+  width: 100%;
+
+  aspect-ratio: 1 / 1;
+
+  min-width: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f2f3ff,
+      #e9e9ff
+    );
+
+  color: #5d56d6;
+
+  font-family: inherit;
+
+  font-size:
+    clamp(38px, 12vw, 58px);
+
+  font-weight: 900;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  box-shadow:
+    inset 0 -4px 0
+    rgba(108, 99, 255, 0.07);
+
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+
+
+.xo-cell:hover {
+
+  transform:
+    translateY(-2px);
+
+  background:
+    linear-gradient(
+      145deg,
+      #eae9ff,
+      #e1e0ff
+    );
+}
+
+
+.xo-cell:active {
+
+  transform:
+    scale(0.94);
+}
+
+
+/* =====================================================
+   PLAYER
+===================================================== */
+
+.xo-player {
+
+  margin-top: 15px;
+
+  padding: 11px;
+
+  border-radius: 14px;
+
+  background: #f4f4fb;
+
+  color: #73798a;
+
+  text-align: center;
+
+  font-size: 13px;
+
+  font-weight: 800;
+}
+
+
+.xo-player strong {
+
+  color: #6c63ff;
+
+  font-size: 18px;
+}
+
+
+/* =====================================================
+   RESTART
+===================================================== */
+
+.xo-restart {
+
+  width: 100%;
+
+  min-height: 45px;
+
+  margin-top: 11px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6c63ff,
+      #8e7cff
+    );
+
+  color: white;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+  .xo-overlay {
+
+    padding: 10px;
+  }
+
+
+  .xo-start-box {
+
+    width:
+      calc(100vw - 24px);
+
+    padding:
+      25px 18px 20px;
+
+    border-radius:
+      24px;
+  }
+
+
+  .xo-logo {
+
+    width: 72px;
+    height: 72px;
+
+    font-size: 32px;
+
+    border-radius: 20px;
+  }
+
+
+  .xo-start-box h2 {
+
+    font-size: 26px;
+  }
+
+
+  .xo-start-box p {
+
+    font-size: 13px;
+
+    margin:
+      10px 0 18px;
+  }
+
+
+  .xo-game {
+
+    width:
+      calc(100vw - 20px);
+
+    padding:
+      17px;
+
+    border-radius:
+      23px;
+  }
+
+
+  .xo-board {
+
+    gap: 7px;
+
+    width:
+      min(330px, 100%);
+  }
+
+
+  .xo-cell {
+
+    border-radius:
+      15px;
+  }
+
+}
+
+
+/* =====================================================
+   SMALL PHONES
+===================================================== */
+
+@media (max-width: 360px) {
+
+  .xo-start-box {
+
+    padding:
+      20px 15px 16px;
+  }
+
+
+  .xo-logo {
+
+    width: 64px;
+    height: 64px;
+
+    font-size: 29px;
+  }
+
+
+  .xo-start-box h2 {
+
+    font-size: 23px;
+  }
+
+
+  .xo-start-box p {
+
+    font-size: 12px;
+  }
+
+
+  .xo-game {
+
+    padding: 14px;
+  }
+
+
+  .xo-board {
+
+    gap: 6px;
+  }
+
+
+  .xo-cell {
+
+    border-radius: 12px;
+
+    font-size: 38px;
+  }
+
+}
+
+
+/* =====================================================
+   LANDSCAPE MOBILE
+===================================================== */
+
+@media
+  (orientation: landscape)
+  and (max-height: 600px) {
+
+  .xo-overlay {
+
+    align-items: center;
+
+    padding: 8px;
+
+    overflow-y: auto;
+  }
+
+
+  .xo-start-box {
+
+    width:
+      min(430px, 90vw);
+
+    padding:
+      17px 20px;
+
+    border-radius:
+      22px;
+  }
+
+
+  .xo-logo {
+
+    width: 55px;
+    height: 55px;
+
+    margin-bottom: 7px;
+
+    border-radius: 16px;
+
+    font-size: 25px;
+  }
+
+
+  .xo-start-box h2 {
+
+    font-size: 21px;
+  }
+
+
+  .xo-start-box p {
+
+    margin:
+      7px 0 10px;
+
+    font-size: 11px;
+  }
+
+
+  .xo-start-box button {
+
+    min-height:
+      38px;
+
+    font-size:
+      11px;
+  }
+
+
+  .xo-start-box .xo-close {
+
+    margin-top:
+      6px;
+  }
+
+
+  .xo-game {
+
+    width:
+      min(420px, 90vw);
+
+    max-height:
+      calc(100dvh - 16px);
+
+    padding:
+      13px;
+  }
+
+
+  .xo-header {
+
+    margin-bottom:
+      7px;
+  }
+
+
+  .xo-status {
+
+    min-height:
+      34px;
+
+    margin-bottom:
+      8px;
+
+    padding:
+      6px;
+
+    font-size:
+      11px;
+  }
+
+
+  .xo-board {
+
+    width:
+      min(260px, 65vh);
+
+    gap:
+      6px;
+  }
+
+
+  .xo-cell {
+
+    border-radius:
+      12px;
+
+    font-size:
+      clamp(30px, 8vh, 45px);
+  }
+
+
+  .xo-player {
+
+    margin-top:
+      7px;
+
+    padding:
+      7px;
+
+    font-size:
+      11px;
+  }
+
+
+  .xo-restart {
+
+    min-height:
+      35px;
+
+    margin-top:
+      7px;
+
+    font-size:
+      11px;
+  }
+
+}

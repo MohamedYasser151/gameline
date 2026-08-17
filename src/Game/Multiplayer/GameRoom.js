@@ -212,7 +212,106 @@ export async function connectToRoom(
       }
     );
 
+// =====================================================
+// GAME INVITES
+// =====================================================
 
+channel.on(
+  "broadcast",
+  {
+    event:
+      "game-invite",
+  },
+  ({
+    payload,
+  }) => {
+
+    console.log(
+      "🎮 GAME INVITE RECEIVED:",
+      payload
+    );
+
+
+    if (!payload) {
+      return;
+    }
+
+
+    if (
+      payload.toPlayerId !==
+      player.id
+    ) {
+
+      return;
+
+    }
+
+
+    window.dispatchEvent(
+      new CustomEvent(
+        "game-invite-received",
+        {
+
+          detail:
+            payload,
+
+        }
+      )
+    );
+
+  }
+);
+
+
+// =====================================================
+// GAME INVITE RESPONSE
+// =====================================================
+
+channel.on(
+  "broadcast",
+  {
+    event:
+      "game-invite-response",
+  },
+  ({
+    payload,
+  }) => {
+
+    if (!payload) {
+      return;
+    }
+
+
+    if (
+      payload.toPlayerId !==
+      player.id
+    ) {
+
+      return;
+
+    }
+
+
+    console.log(
+      "🎮 GAME INVITE RESPONSE:",
+      payload
+    );
+
+
+    window.dispatchEvent(
+      new CustomEvent(
+        "game-invite-response",
+        {
+
+          detail:
+            payload,
+
+        }
+      )
+    );
+
+  }
+);
   // ===================================================
   // PLAYERS
   // ===================================================
@@ -1277,6 +1376,183 @@ export async function leaveRoom(
 
     console.error(
       "❌ LEAVE ERROR:",
+      error
+    );
+
+  }
+
+}
+
+// =====================================================
+// SEND GAME INVITE
+// =====================================================
+
+export async function sendGameInvite(
+  channel,
+  player,
+  targetPlayerId,
+  game
+) {
+
+  if (!channel || !player || !targetPlayerId) {
+    return;
+  }
+
+  try {
+
+    await channel.send({
+
+      type: "broadcast",
+
+      event: "game-invite",
+
+      payload: {
+
+        fromPlayerId:
+          player.id,
+
+        fromPlayerName:
+          player.name || "Player",
+
+        toPlayerId:
+          targetPlayerId,
+
+        game,
+
+        gameId:
+          crypto.randomUUID(),
+
+        timestamp:
+          Date.now(),
+
+      },
+
+    });
+
+    console.log(
+      "🎮 GAME INVITE SENT:",
+      game
+    );
+
+  } catch (error) {
+
+    console.error(
+      "❌ GAME INVITE ERROR:",
+      error
+    );
+
+  }
+
+}
+
+
+// =====================================================
+// GAME INVITE RESPONSE
+// =====================================================
+
+export async function sendGameInviteResponse(
+  channel,
+  player,
+  invite,
+  accepted
+) {
+
+  if (!channel || !player || !invite) {
+    return;
+  }
+
+  try {
+
+    await channel.send({
+
+      type: "broadcast",
+
+      event: "game-invite-response",
+
+      payload: {
+
+        fromPlayerId:
+          player.id,
+
+        fromPlayerName:
+          player.name || "Player",
+
+        toPlayerId:
+          invite.fromPlayerId,
+
+        game:
+          invite.game,
+
+        gameId:
+          invite.gameId,
+
+        accepted,
+
+        timestamp:
+          Date.now(),
+
+      },
+
+    });
+
+  } catch (error) {
+
+    console.error(
+      "❌ GAME INVITE RESPONSE ERROR:",
+      error
+    );
+
+  }
+
+}
+
+
+// =====================================================
+// GAME MOVE
+// =====================================================
+
+export async function sendGameMove(
+  channel,
+  player,
+  gameId,
+  game,
+  move
+) {
+
+  if (!channel || !player || !gameId) {
+    return;
+  }
+
+  try {
+
+    await channel.send({
+
+      type: "broadcast",
+
+      event: "game-move",
+
+      payload: {
+
+        playerId:
+          player.id,
+
+        gameId,
+
+        game,
+
+        move,
+
+        timestamp:
+          Date.now(),
+
+      },
+
+    });
+
+  } catch (error) {
+
+    console.error(
+      "❌ GAME MOVE ERROR:",
       error
     );
 

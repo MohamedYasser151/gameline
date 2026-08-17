@@ -24,15 +24,14 @@ function App() {
 
 
       setGameData(
-        (oldData) => {
-
-          // Prevent duplicate start
+        oldData => {
 
           if (oldData) {
             return oldData;
           }
 
           return data;
+
         }
       );
 
@@ -48,27 +47,37 @@ function App() {
         }
       />
     );
+
   }
 
 
   return (
     <>
-    <Game
-  player={
-    gameData.player
-  }
-/>
+
+      <Game
+        player={
+          gameData.player
+        }
+
+        channel={
+          gameData.channel
+        }
+      />
+
 
       <MultiplayerController
         channel={
           gameData.channel
         }
+
         player={
           gameData.player
         }
       />
+
     </>
   );
+
 }
 
 

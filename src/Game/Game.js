@@ -4,7 +4,7 @@ import "aframe";
 
 import "./gameComponents";
 import "./Game.css";
-
+import GameMenu from "./games/GameMenu";
 import MobileJoystick from "./MobileJoystick";
 
 
@@ -492,8 +492,8 @@ const Player = ({
 
 const Game = ({
   player,
+  channel,
 }) => {
-
   // ===================================================
   // PREVENT MOBILE ZOOM
   // ===================================================
@@ -854,7 +854,7 @@ const Game = ({
       {/* HUD */}
       {/* ================================================= */}
 
-      <div className="game-ui">
+      {/* <div className="game-ui">
 
         <div className="game-title">
           🏝️ Code Kids Island
@@ -864,7 +864,7 @@ const Game = ({
           استكشف الجزيرة واجمع النجوم ⭐
         </div>
 
-      </div>
+      </div> */}
 
 
       {/* ================================================= */}
@@ -872,6 +872,11 @@ const Game = ({
       {/* ================================================= */}
 
       <MobileJoystick />
+
+      <GameMenu
+  channel={channel}
+  player={player}
+/>
 
     </div>
   );

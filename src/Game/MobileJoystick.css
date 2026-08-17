@@ -1,0 +1,380 @@
+/* =====================================================
+   MOBILE GAME CONTROLS
+===================================================== */
+
+.mobile-controls {
+
+  position: fixed;
+
+  inset: 0;
+
+  width: 100vw;
+
+  height: 100dvh;
+
+  pointer-events: none;
+
+  z-index: 99999;
+
+  overflow: hidden;
+
+}
+
+
+/* =====================================================
+   JOYSTICK
+===================================================== */
+
+.joystick {
+
+  position: absolute;
+
+  left: 35px;
+
+  bottom: 35px;
+
+  width: 135px;
+
+  height: 135px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.18);
+
+  border:
+    3px solid
+    rgba(255, 255, 255, 0.55);
+
+  box-shadow:
+    0 8px 25px
+    rgba(0, 0, 0, 0.25);
+
+  backdrop-filter:
+    blur(6px);
+
+  -webkit-backdrop-filter:
+    blur(6px);
+
+  pointer-events: auto;
+
+  touch-action: none;
+
+  user-select: none;
+
+  -webkit-user-select: none;
+
+}
+
+
+/* =====================================================
+   JOYSTICK KNOB
+===================================================== */
+
+.joystick-knob {
+
+  position: absolute;
+
+  left: 50%;
+
+  top: 50%;
+
+  width: 65px;
+
+  height: 65px;
+
+  margin-left: -32.5px;
+
+  margin-top: -32.5px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    rgba(108, 99, 255, 0.9);
+
+  border:
+    3px solid
+    rgba(255, 255, 255, 0.85);
+
+  color: white;
+
+  font-size: 25px;
+
+  box-shadow:
+    0 5px 18px
+    rgba(0, 0, 0, 0.3);
+
+  pointer-events: none;
+
+  transition:
+    transform 0.03s linear;
+
+}
+
+
+/* =====================================================
+   JUMP BUTTON
+===================================================== */
+
+.jump-button {
+
+  position: absolute;
+
+  right: 40px;
+
+  bottom: 45px;
+
+  width: 85px;
+
+  height: 85px;
+
+  border-radius: 50%;
+
+  border: 3px solid
+    rgba(255, 255, 255, 0.8);
+
+  background:
+    rgba(108, 99, 255, 0.9);
+
+  color: white;
+
+  font-size: 45px;
+
+  font-weight: bold;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-shadow:
+    0 8px 25px
+    rgba(0, 0, 0, 0.3);
+
+  pointer-events: auto;
+
+  touch-action: none;
+
+  user-select: none;
+
+  -webkit-user-select: none;
+
+}
+
+
+/* =====================================================
+   FULLSCREEN BUTTON
+===================================================== */
+
+.fullscreen-button {
+
+  position: absolute;
+
+  top: 20px;
+
+  right: 20px;
+
+  width: 50px;
+
+  height: 50px;
+
+  border-radius: 14px;
+
+  border: 2px solid
+    rgba(255, 255, 255, 0.7);
+
+  background:
+    rgba(0, 0, 0, 0.35);
+
+  color: white;
+
+  font-size: 28px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  pointer-events: auto;
+
+  z-index: 100000;
+
+  backdrop-filter:
+    blur(5px);
+
+  -webkit-backdrop-filter:
+    blur(5px);
+
+  touch-action: manipulation;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+
+  .joystick {
+
+    width: 125px;
+
+    height: 125px;
+
+    left: 25px;
+
+    bottom: 25px;
+
+  }
+
+
+  .joystick-knob {
+
+    width: 60px;
+
+    height: 60px;
+
+    margin-left: -30px;
+
+    margin-top: -30px;
+
+  }
+
+
+  .jump-button {
+
+    width: 78px;
+
+    height: 78px;
+
+    right: 30px;
+
+    bottom: 30px;
+
+  }
+
+
+  .fullscreen-button {
+
+    top: 15px;
+
+    right: 15px;
+
+  }
+
+}
+
+
+/* =====================================================
+   SMALL PHONES
+===================================================== */
+
+@media (max-width: 480px) {
+
+  .joystick {
+
+    width: 110px;
+
+    height: 110px;
+
+    left: 20px;
+
+    bottom: 20px;
+
+  }
+
+
+  .joystick-knob {
+
+    width: 55px;
+
+    height: 55px;
+
+    margin-left: -27.5px;
+
+    margin-top: -27.5px;
+
+  }
+
+
+  .jump-button {
+
+    width: 70px;
+
+    height: 70px;
+
+    right: 20px;
+
+    bottom: 20px;
+
+    font-size: 38px;
+
+  }
+
+}
+
+
+/* =====================================================
+   LANDSCAPE
+===================================================== */
+
+@media screen and (orientation: landscape) {
+
+  .mobile-controls {
+
+    width: 100vw;
+
+    height: 100dvh;
+
+  }
+
+
+  .joystick {
+
+    left: 35px;
+
+    bottom: 30px;
+
+  }
+
+
+  .jump-button {
+
+    right: 35px;
+
+    bottom: 30px;
+
+  }
+
+}
+
+
+/* =====================================================
+   PORTRAIT
+===================================================== */
+
+@media screen and (orientation: portrait) {
+
+  .joystick {
+
+    bottom: 30px;
+
+  }
+
+
+  .jump-button {
+
+    bottom: 30px;
+
+  }
+
+}
