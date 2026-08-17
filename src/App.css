@@ -1,38 +1,865 @@
-.App {
-  text-align: center;
-}
+/* =====================================================
+   CODE KIDS SPLASH
+===================================================== */
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+.app-splash {
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+  position: fixed;
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  inset: 0;
+
+  width: 100%;
+  height: 100dvh;
+
+  overflow: hidden;
+
   display: flex;
-  flex-direction: column;
+
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+
+  background:
+    linear-gradient(
+      180deg,
+      #7dd8ff 0%,
+      #b8efff 45%,
+      #fff4d7 100%
+    );
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  z-index: 999999;
+
+  animation:
+    splashAppear 0.7s ease;
 }
 
-.App-link {
-  color: #61dafb;
+
+/* =====================================================
+   BACKGROUND
+===================================================== */
+
+.app-splash::before {
+
+  content: "";
+
+  position: absolute;
+
+  width: 550px;
+  height: 550px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255,255,255,0.16);
+
+  top: -250px;
+  right: -150px;
+
+  animation:
+    splashSun 5s ease-in-out infinite;
 }
 
-@keyframes App-logo-spin {
+
+.app-splash::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: 500px;
+  height: 500px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255,255,255,0.12);
+
+  bottom: -280px;
+  left: -180px;
+
+}
+
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+.splash-content {
+
+  position: relative;
+
+  z-index: 10;
+
+  width:
+    min(430px, 90vw);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  text-align: center;
+
+  animation:
+    splashContentIn 1s
+    cubic-bezier(.2,.8,.2,1);
+}
+
+
+/* =====================================================
+   ISLAND
+===================================================== */
+
+.splash-island {
+
+  position: relative;
+
+  width:
+    clamp(180px, 42vw, 240px);
+
+  height:
+    clamp(130px, 30vw, 170px);
+
+  margin-bottom: 10px;
+
+  animation:
+    islandFloat 3s ease-in-out infinite;
+
+}
+
+
+/* WATER */
+
+.splash-water {
+
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 8px;
+
+  transform:
+    translateX(-50%);
+
+  font-size:
+    clamp(65px, 16vw, 95px);
+
+  filter:
+    drop-shadow(
+      0 10px 10px
+      rgba(0,0,0,0.12)
+    );
+
+}
+
+
+/* CHARACTER */
+
+.splash-character {
+
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 45px;
+
+  transform:
+    translateX(-50%);
+
+  font-size:
+    clamp(55px, 13vw, 75px);
+
+  z-index: 3;
+
+  animation:
+    characterBounce 1.5s
+    ease-in-out infinite;
+}
+
+
+/* PALM */
+
+.splash-palm {
+
+  position: absolute;
+
+  right: 8%;
+
+  bottom: 42px;
+
+  font-size:
+    clamp(50px, 12vw, 70px);
+
+  transform:
+    rotate(-5deg);
+
+  z-index: 4;
+
+}
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.splash-logo {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  font-size:
+    clamp(34px, 9vw, 50px);
+
+  font-weight: 1000;
+
+  letter-spacing: -2px;
+
+  text-shadow:
+    0 4px 0
+    rgba(255,255,255,0.7),
+
+    0 8px 20px
+    rgba(0,0,0,0.12);
+
+  animation:
+    logoPop 0.8s
+    0.25s both;
+}
+
+
+.splash-logo span {
+
+  color:
+    #ffffff;
+
+}
+
+
+.splash-logo strong {
+
+  color:
+    #6c63ff;
+
+}
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+.splash-title {
+
+  margin-top: 4px;
+
+  color:
+    #263238;
+
+  font-size:
+    clamp(17px, 4.5vw, 22px);
+
+  font-weight: 900;
+
+  animation:
+    titleIn 0.7s
+    0.5s both;
+}
+
+
+.splash-subtitle {
+
+  margin:
+    8px 0 20px;
+
+  color:
+    rgba(38,50,56,0.72);
+
+  font-size:
+    clamp(12px, 3.5vw, 15px);
+
+  font-weight: 700;
+
+  animation:
+    titleIn 0.7s
+    0.7s both;
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.splash-loading {
+
+  width:
+    min(250px, 70vw);
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+
+  animation:
+    titleIn 0.7s
+    0.9s both;
+}
+
+
+.splash-loading-bar {
+
+  width: 100%;
+
+  height: 7px;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  background:
+    rgba(255,255,255,0.55);
+
+  box-shadow:
+    inset 0 2px 5px
+    rgba(0,0,0,0.08);
+}
+
+
+.splash-loading-progress {
+
+  width: 0%;
+
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      #6c63ff,
+      #9b8cff
+    );
+
+  animation:
+    loadingProgress 2.2s
+    cubic-bezier(.4,0,.2,1)
+    forwards;
+}
+
+
+.splash-loading span {
+
+  color:
+    rgba(38,50,56,0.62);
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+}
+
+
+/* =====================================================
+   BOTTOM
+===================================================== */
+
+.splash-bottom {
+
+  position: absolute;
+
+  bottom:
+    max(20px, env(safe-area-inset-bottom));
+
+  left: 50%;
+
+  transform:
+    translateX(-50%);
+
+  z-index: 10;
+
+  color:
+    rgba(38,50,56,0.55);
+
+  font-size:
+    12px;
+
+  font-weight:
+    800;
+
+  white-space:
+    nowrap;
+
+  animation:
+    bottomPulse 2s
+    ease-in-out infinite;
+}
+
+
+/* =====================================================
+   CLOUDS
+===================================================== */
+
+.splash-cloud {
+
+  position: absolute;
+
+  z-index: 2;
+
+  font-size:
+    clamp(35px, 10vw, 70px);
+
+  opacity:
+    0.75;
+
+  filter:
+    drop-shadow(
+      0 8px 10px
+      rgba(0,0,0,0.06)
+    );
+}
+
+
+.cloud-1 {
+
+  top:
+    13%;
+
+  left:
+    7%;
+
+  animation:
+    cloudMove1 6s
+    ease-in-out infinite;
+}
+
+
+.cloud-2 {
+
+  top:
+    25%;
+
+  right:
+    8%;
+
+  font-size:
+    clamp(28px, 8vw, 55px);
+
+  animation:
+    cloudMove2 7s
+    ease-in-out infinite;
+}
+
+
+/* =====================================================
+   STARS
+===================================================== */
+
+.splash-star {
+
+  position: absolute;
+
+  color:
+    #ffffff;
+
+  font-size:
+    22px;
+
+  z-index: 3;
+
+  animation:
+    starTwinkle 1.5s
+    ease-in-out infinite;
+}
+
+
+.star-1 {
+
+  top: 18%;
+  right: 28%;
+}
+
+
+.star-2 {
+
+  top: 35%;
+  left: 20%;
+
+  animation-delay:
+    0.4s;
+}
+
+
+.star-3 {
+
+  top: 12%;
+  right: 15%;
+
+  animation-delay:
+    0.8s;
+}
+
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+@keyframes splashAppear {
+
   from {
-    transform: rotate(0deg);
+    opacity: 0;
   }
+
   to {
-    transform: rotate(360deg);
+    opacity: 1;
   }
+
+}
+
+
+@keyframes splashContentIn {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(35px)
+      scale(0.94);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+
+  }
+
+}
+
+
+@keyframes islandFloat {
+
+  0%,
+  100% {
+
+    transform:
+      translateY(0);
+
+  }
+
+  50% {
+
+    transform:
+      translateY(-8px);
+
+  }
+
+}
+
+
+@keyframes characterBounce {
+
+  0%,
+  100% {
+
+    transform:
+      translateX(-50%)
+      translateY(0);
+
+  }
+
+  50% {
+
+    transform:
+      translateX(-50%)
+      translateY(-7px);
+
+  }
+
+}
+
+
+@keyframes logoPop {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      scale(0.7);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      scale(1);
+
+  }
+
+}
+
+
+@keyframes titleIn {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(10px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+
+  }
+
+}
+
+
+@keyframes loadingProgress {
+
+  from {
+
+    width: 0%;
+
+  }
+
+  to {
+
+    width: 100%;
+
+  }
+
+}
+
+
+@keyframes bottomPulse {
+
+  0%,
+  100% {
+
+    opacity:
+      0.45;
+
+  }
+
+  50% {
+
+    opacity:
+      1;
+
+  }
+
+}
+
+
+@keyframes cloudMove1 {
+
+  0%,
+  100% {
+
+    transform:
+      translateX(0);
+
+  }
+
+  50% {
+
+    transform:
+      translateX(25px);
+
+  }
+
+}
+
+
+@keyframes cloudMove2 {
+
+  0%,
+  100% {
+
+    transform:
+      translateX(0);
+
+  }
+
+  50% {
+
+    transform:
+      translateX(-20px);
+
+  }
+
+}
+
+
+@keyframes starTwinkle {
+
+  0%,
+  100% {
+
+    opacity:
+      0.35;
+
+    transform:
+      scale(0.8)
+      rotate(0deg);
+
+  }
+
+  50% {
+
+    opacity:
+      1;
+
+    transform:
+      scale(1.25)
+      rotate(15deg);
+
+  }
+
+}
+
+
+@keyframes splashSun {
+
+  0%,
+  100% {
+
+    transform:
+      scale(1);
+
+  }
+
+  50% {
+
+    transform:
+      scale(1.08);
+
+  }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+  .splash-content {
+
+    width:
+      92vw;
+
+  }
+
+  .splash-island {
+
+    margin-bottom:
+      3px;
+
+  }
+
+  .splash-subtitle {
+
+    margin-bottom:
+      17px;
+
+  }
+
+}
+
+
+/* =====================================================
+   SMALL HEIGHT
+===================================================== */
+
+@media (max-height: 600px) {
+
+  .splash-island {
+
+    transform:
+      scale(0.72);
+
+    margin-top:
+      -25px;
+
+    margin-bottom:
+      -30px;
+
+  }
+
+  .splash-logo {
+
+    font-size:
+      32px;
+
+  }
+
+  .splash-title {
+
+    font-size:
+      16px;
+
+  }
+
+  .splash-subtitle {
+
+    margin:
+      4px 0 10px;
+
+  }
+
+}
+
+
+/* =====================================================
+   LANDSCAPE MOBILE
+===================================================== */
+
+@media
+(max-height: 500px)
+and (orientation: landscape) {
+
+  .splash-content {
+
+    transform:
+      scale(0.72);
+
+  }
+
+  .splash-cloud {
+
+    display:
+      none;
+
+  }
+
 }
