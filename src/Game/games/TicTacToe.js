@@ -6,9 +6,17 @@ import React, {
 import "./css/TicTacToe.css";
 
 
+// =====================================================
+// EMPTY BOARD
+// =====================================================
+
 const EMPTY_BOARD =
   Array(9).fill(null);
 
+
+// =====================================================
+// TIC TAC TOE
+// =====================================================
 
 const TicTacToe = ({
   channel,
@@ -16,28 +24,76 @@ const TicTacToe = ({
   onClose,
 }) => {
 
+  // ===================================================
+  // BOARD
+  // ===================================================
+
   const [board, setBoard] =
     useState(EMPTY_BOARD);
+
+
+  // ===================================================
+  // MY SYMBOL
+  // ===================================================
 
   const [mySymbol, setMySymbol] =
     useState(null);
 
+
+  // ===================================================
+  // GAME STARTED
+  // ===================================================
+
   const [gameStarted, setGameStarted] =
     useState(false);
+
+
+  // ===================================================
+  // TURN
+  // ===================================================
 
   const [turn, setTurn] =
     useState("X");
 
+
+  // ===================================================
+  // WINNER
+  // ===================================================
+
   const [winner, setWinner] =
     useState(null);
+
+
+  // ===================================================
+  // PLAYERS READY
+  // ===================================================
 
   const [playersReady, setPlayersReady] =
     useState(false);
 
 
-  // =====================================================
+  // ===================================================
+  // SCORE
+  // ===================================================
+
+  const [score, setScore] =
+    useState({
+      X: 0,
+      O: 0,
+    });
+
+
+  // ===================================================
+  // GAME NUMBER
+  // ===================================================
+
+  const [round, setRound] =
+    useState(1);
+
+
+  // ===================================================
   // LISTEN XO EVENTS
-  // =====================================================
+  // ===================================================
 
   useEffect(() => {
 
@@ -45,10 +101,14 @@ const TicTacToe = ({
       return;
     }
 
+    if (!player?.id) {
+      return;
+    }
 
-    // ===================================================
+
+    // =================================================
     // GAME START
-    // ===================================================
+    // =================================================
 
     const startHandler =
       ({ payload }) => {
@@ -64,22 +124,48 @@ const TicTacToe = ({
         );
 
 
+        const myId =
+          String(player.id);
+
+
+        const playerX =
+          String(
+            payload.playerX || ""
+          );
+
+
+        const playerO =
+          String(
+            payload.playerO || ""
+          );
+
+
+        // =============================================
+        // DETERMINE SYMBOL
+        // =============================================
+
         if (
-          payload.playerX ===
-          player.id
+          playerX === myId
         ) {
 
           setMySymbol("X");
 
         } else if (
-          payload.playerO ===
-          player.id
+          playerO === myId
         ) {
 
           setMySymbol("O");
 
+        } else {
+
+          return;
+
         }
 
+
+        // =============================================
+        // RESET ROUND
+        // =============================================
 
         setBoard(
           Array(9).fill(null)
@@ -93,12 +179,33 @@ const TicTacToe = ({
 
         setPlayersReady(true);
 
+
+        // =============================================
+        // SCORE
+        // =============================================
+
+        setScore(
+          payload.score || {
+            X: 0,
+            O: 0,
+          }
+        );
+
+
+        // =============================================
+        // ROUND
+        // =============================================
+
+        setRound(
+          payload.round || 1
+        );
+
       };
 
 
-    // ===================================================
+    // =================================================
     // MOVE
-    // ===================================================
+    // =================================================
 
     const moveHandler =
       ({ payload }) => {
@@ -115,24 +222,51 @@ const TicTacToe = ({
 
 
         setBoard(
-          payload.board
+          payload.board || EMPTY_BOARD
         );
+
 
         setTurn(
-          payload.turn
+          payload.turn || "X"
         );
 
+
         setWinner(
-          payload.winner ||
-          null
+          payload.winner || null
         );
+
+
+        // =============================================
+        // UPDATE SCORE
+        // =============================================
+
+        if (payload.score) {
+
+          setScore(
+            payload.score
+          );
+
+        }
+
+
+        // =============================================
+        // ROUND
+        // =============================================
+
+        if (payload.round) {
+
+          setRound(
+            payload.round
+          );
+
+        }
 
       };
 
 
-    // ===================================================
+    // =================================================
     // RESTART
-    // ===================================================
+    // =================================================
 
     const restartHandler =
       ({ payload }) => {
@@ -140,6 +274,12 @@ const TicTacToe = ({
         if (!payload) {
           return;
         }
+
+
+        console.log(
+          "🔄 XO RESTART:",
+          payload
+        );
 
 
         setBoard(
@@ -150,14 +290,41 @@ const TicTacToe = ({
 
         setWinner(null);
 
+        setGameStarted(true);
+
+
+        // =============================================
+        // KEEP SCORE
+        // =============================================
+
+        if (payload.score) {
+
+          setScore(
+            payload.score
+          );
+
+        }
+
+
+        if (payload.round) {
+
+          setRound(
+            payload.round
+          );
+
+        }
+
       };
 
+
+    // =================================================
+    // REGISTER EVENTS
+    // =================================================
 
     channel.on(
       "broadcast",
       {
-        event:
-          "xo-start",
+        event: "xo-start",
       },
       startHandler
     );
@@ -166,8 +333,7 @@ const TicTacToe = ({
     channel.on(
       "broadcast",
       {
-        event:
-          "xo-move",
+        event: "xo-move",
       },
       moveHandler
     );
@@ -176,12 +342,15 @@ const TicTacToe = ({
     channel.on(
       "broadcast",
       {
-        event:
-          "xo-restart",
+        event: "xo-restart",
       },
       restartHandler
     );
 
+
+    // =================================================
+    // CLEANUP
+    // =================================================
 
     return () => {
 
@@ -222,7 +391,7 @@ const TicTacToe = ({
         const [
           a,
           b,
-          c
+          c,
         ]
         of lines
       ) {
@@ -242,6 +411,10 @@ const TicTacToe = ({
       }
 
 
+      // =================================================
+      // DRAW
+      // =================================================
+
       if (
         squares.every(
           Boolean
@@ -259,11 +432,15 @@ const TicTacToe = ({
 
 
   // =====================================================
-  // CLICK
+  // CLICK CELL
   // =====================================================
 
   const handleClick =
     async (index) => {
+
+      // ===============================================
+      // VALIDATION
+      // ===============================================
 
       if (!gameStarted) {
         return;
@@ -290,6 +467,15 @@ const TicTacToe = ({
       }
 
 
+      if (!channel) {
+        return;
+      }
+
+
+      // ===============================================
+      // NEW BOARD
+      // ===============================================
+
       const newBoard =
         [...board];
 
@@ -298,11 +484,19 @@ const TicTacToe = ({
         mySymbol;
 
 
+      // ===============================================
+      // WINNER
+      // ===============================================
+
       const newWinner =
         calculateWinner(
           newBoard
         );
 
+
+      // ===============================================
+      // NEXT TURN
+      // ===============================================
 
       const nextTurn =
         mySymbol === "X"
@@ -310,18 +504,74 @@ const TicTacToe = ({
           : "X";
 
 
+      // ===============================================
+      // NEW SCORE
+      // ===============================================
+
+      let newScore = {
+        ...score,
+      };
+
+
+      // ===============================================
+      // ADD POINT
+      // ===============================================
+
+      if (
+        newWinner === "X"
+      ) {
+
+        newScore = {
+          ...newScore,
+          X:
+            newScore.X + 1,
+        };
+
+      }
+
+
+      if (
+        newWinner === "O"
+      ) {
+
+        newScore = {
+          ...newScore,
+          O:
+            newScore.O + 1,
+        };
+
+      }
+
+
+      // ===============================================
+      // LOCAL UPDATE
+      // ===============================================
+
       setBoard(
         newBoard
       );
 
+
       setTurn(
-        nextTurn
+        newWinner
+          ? mySymbol
+          : nextTurn
       );
+
 
       setWinner(
         newWinner
       );
 
+
+      setScore(
+        newScore
+      );
+
+
+      // ===============================================
+      // SEND TO OTHER PLAYER
+      // ===============================================
 
       try {
 
@@ -346,8 +596,16 @@ const TicTacToe = ({
             winner:
               newWinner,
 
+            score:
+              newScore,
+
+            round:
+              round,
+
             playerId:
-              player.id,
+              String(
+                player.id
+              ),
 
             timestamp:
               Date.now(),
@@ -376,9 +634,30 @@ const TicTacToe = ({
     async () => {
 
       if (!channel) {
+
+        alert(
+          "الغرفة غير متصلة"
+        );
+
         return;
+
       }
 
+
+      if (!player?.id) {
+
+        alert(
+          "بيانات اللاعب غير موجودة"
+        );
+
+        return;
+
+      }
+
+
+      // =================================================
+      // GET PRESENCE
+      // =================================================
 
       const state =
         channel.presenceState();
@@ -391,7 +670,7 @@ const TicTacToe = ({
       Object.keys(
         state
       ).forEach(
-        key => {
+        (key) => {
 
           const entries =
             state[key];
@@ -409,17 +688,23 @@ const TicTacToe = ({
 
 
           entries.forEach(
-            entry => {
+            (entry) => {
 
               const id =
-                entry?.playerId ||
-                key;
+                String(
+                  entry?.id ||
+                  entry?.playerId ||
+                  key ||
+                  ""
+                );
 
 
               if (
                 id &&
                 id !==
-                player.id
+                String(
+                  player.id
+                )
               ) {
 
                 friendId =
@@ -434,16 +719,62 @@ const TicTacToe = ({
       );
 
 
+      // =================================================
+      // CHECK FRIEND
+      // =================================================
+
       if (!friendId) {
 
         alert(
-          "لا يوجد لاعب آخر"
+          "لا يوجد لاعب آخر في الغرفة"
         );
 
         return;
 
       }
 
+
+      // =================================================
+      // INITIAL SCORE
+      // =================================================
+
+      const initialScore = {
+        X: 0,
+        O: 0,
+      };
+
+
+      // =================================================
+      // PAYLOAD
+      // =================================================
+
+      const payload = {
+
+        playerX:
+          String(
+            player.id
+          ),
+
+        playerO:
+          String(
+            friendId
+          ),
+
+        score:
+          initialScore,
+
+        round:
+          1,
+
+        timestamp:
+          Date.now(),
+
+      };
+
+
+      // =================================================
+      // SEND
+      // =================================================
 
       try {
 
@@ -455,44 +786,46 @@ const TicTacToe = ({
           event:
             "xo-start",
 
-          payload: {
-
-            playerX:
-              player.id,
-
-            playerO:
-              friendId,
-
-            timestamp:
-              Date.now(),
-
-          },
+          payload,
 
         });
 
 
-        setMySymbol(
-          "X"
-        );
+        // =================================================
+        // LOCAL PLAYER
+        // =================================================
+
+        setMySymbol("X");
+
 
         setBoard(
           Array(9).fill(null)
         );
 
-        setTurn(
-          "X"
+
+        setTurn("X");
+
+
+        setWinner(null);
+
+
+        setScore(
+          initialScore
         );
 
-        setWinner(
-          null
-        );
 
-        setGameStarted(
-          true
-        );
+        setRound(1);
 
-        setPlayersReady(
-          true
+
+        setGameStarted(true);
+
+
+        setPlayersReady(true);
+
+
+        console.log(
+          "🚀 XO GAME STARTED:",
+          payload
         );
 
       } catch (error) {
@@ -514,6 +847,52 @@ const TicTacToe = ({
   const restart =
     async () => {
 
+      if (!channel) {
+        return;
+      }
+
+
+      // =================================================
+      // NEXT ROUND
+      // =================================================
+
+      const nextRound =
+        round + 1;
+
+
+      // =================================================
+      // KEEP CURRENT SCORE
+      // =================================================
+
+      const currentScore = {
+        ...score,
+      };
+
+
+      // =================================================
+      // RESET LOCAL
+      // =================================================
+
+      setBoard(
+        Array(9).fill(null)
+      );
+
+
+      setTurn("X");
+
+
+      setWinner(null);
+
+
+      setRound(
+        nextRound
+      );
+
+
+      // =================================================
+      // SEND RESTART
+      // =================================================
+
       try {
 
         await channel.send({
@@ -526,8 +905,16 @@ const TicTacToe = ({
 
           payload: {
 
+            score:
+              currentScore,
+
+            round:
+              nextRound,
+
             playerId:
-              player.id,
+              String(
+                player.id
+              ),
 
             timestamp:
               Date.now(),
@@ -536,18 +923,21 @@ const TicTacToe = ({
 
         });
 
+        console.log(
+          "🔄 XO ROUND RESTART:",
+          {
+            score:
+              currentScore,
 
-        setBoard(
-          Array(9).fill(null)
+            round:
+              nextRound,
+          }
         );
-
-        setTurn("X");
-
-        setWinner(null);
 
       } catch (error) {
 
         console.error(
+          "❌ XO RESTART ERROR:",
           error
         );
 
@@ -572,13 +962,63 @@ const TicTacToe = ({
             ❌⭕
           </div>
 
+
           <h2>
             XO
           </h2>
 
+
           <p>
             جاهز تلعب مع صديقك؟
           </p>
+
+
+          {/* ========================================= */}
+          {/* SCORE */}
+          {/* ========================================= */}
+
+          <div className="xo-score">
+
+            <div className="xo-score-player">
+
+              <span>
+                ❌
+              </span>
+
+              <strong>
+                X
+              </strong>
+
+              <b>
+                {score.X}
+              </b>
+
+            </div>
+
+
+            <div className="xo-score-vs">
+              VS
+            </div>
+
+
+            <div className="xo-score-player">
+
+              <span>
+                ⭕
+              </span>
+
+              <strong>
+                O
+              </strong>
+
+              <b>
+                {score.O}
+              </b>
+
+            </div>
+
+          </div>
+
 
           <button
             onClick={
@@ -587,6 +1027,7 @@ const TicTacToe = ({
           >
             🚀 بدء اللعبة
           </button>
+
 
           <button
             className="xo-close"
@@ -607,7 +1048,7 @@ const TicTacToe = ({
 
 
   // =====================================================
-  // GAME
+  // GAME UI
   // =====================================================
 
   return (
@@ -615,6 +1056,11 @@ const TicTacToe = ({
     <div className="xo-overlay">
 
       <div className="xo-game">
+
+
+        {/* ============================================= */}
+        {/* EXIT */}
+        {/* ============================================= */}
 
         <button
           className="xo-exit"
@@ -626,11 +1072,16 @@ const TicTacToe = ({
         </button>
 
 
+        {/* ============================================= */}
+        {/* HEADER */}
+        {/* ============================================= */}
+
         <div className="xo-header">
 
           <div>
             ❌⭕
           </div>
+
 
           <h2>
             XO
@@ -639,35 +1090,136 @@ const TicTacToe = ({
         </div>
 
 
+        {/* ============================================= */}
+        {/* SCORE */}
+        {/* ============================================= */}
+
+        <div className="xo-score">
+
+          <div
+            className={
+              `xo-score-player ${
+                mySymbol === "X"
+                  ? "my-player"
+                  : ""
+              }`
+            }
+          >
+
+            <span>
+              ❌
+            </span>
+
+            <strong>
+              X
+            </strong>
+
+            <b>
+              {score.X}
+            </b>
+
+          </div>
+
+
+          <div className="xo-score-vs">
+            VS
+          </div>
+
+
+          <div
+            className={
+              `xo-score-player ${
+                mySymbol === "O"
+                  ? "my-player"
+                  : ""
+              }`
+            }
+          >
+
+            <span>
+              ⭕
+            </span>
+
+            <strong>
+              O
+            </strong>
+
+            <b>
+              {score.O}
+            </b>
+
+          </div>
+
+        </div>
+
+
+        {/* ============================================= */}
+        {/* ROUND */}
+        {/* ============================================= */}
+
+        <div className="xo-round">
+
+          الجولة{" "}
+          <strong>
+            {round}
+          </strong>
+
+        </div>
+
+
+        {/* ============================================= */}
+        {/* STATUS */}
+        {/* ============================================= */}
+
         <div className="xo-status">
 
           {winner === "DRAW" && (
+
             "🤝 تعادل!"
+
           )}
+
 
           {winner &&
             winner !== "DRAW" && (
-              <>
-                🎉 الفائز: {winner}
-              </>
-            )}
+
+            <>
+              🎉 الفائز:
+              {" "}
+              <strong>
+                {winner}
+              </strong>
+            </>
+
+          )}
+
 
           {!winner && (
+
             <>
+
               الدور:
               {" "}
+
               <strong>
                 {turn}
               </strong>
 
+
               {turn === mySymbol
                 ? " — دورك"
                 : " — انتظر صديقك"}
+
             </>
+
           )}
 
         </div>
 
+
+        {/* ============================================= */}
+        {/* BOARD */}
+        {/* ============================================= */}
 
         <div className="xo-board">
 
@@ -705,6 +1257,10 @@ const TicTacToe = ({
         </div>
 
 
+        {/* ============================================= */}
+        {/* MY PLAYER */}
+        {/* ============================================= */}
+
         <div className="xo-player">
 
           أنت:
@@ -715,8 +1271,24 @@ const TicTacToe = ({
             {mySymbol}
           </strong>
 
+          {" "}
+
+          | النقاط:
+
+          {" "}
+
+          <strong>
+            {mySymbol
+              ? score[mySymbol]
+              : 0}
+          </strong>
+
         </div>
 
+
+        {/* ============================================= */}
+        {/* RESTART */}
+        {/* ============================================= */}
 
         {winner && (
 
@@ -726,7 +1298,9 @@ const TicTacToe = ({
               restart
             }
           >
+
             🔄 لعب مرة أخرى
+
           </button>
 
         )}

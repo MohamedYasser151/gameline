@@ -783,10 +783,10 @@ channel.on(
       payload,
     }) => {
 
-      console.log(
-        "📥 PLAYER STATE:",
-        payload
-      );
+      // console.log(
+      //   "📥 PLAYER STATE:",
+      //   payload
+      // );
 
 
       if (

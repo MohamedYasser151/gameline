@@ -241,3 +241,82 @@ body,
   }
 
 }
+/* =====================================================
+   ROOM CHAT BUTTON
+===================================================== */
+
+.room-chat-button {
+
+  position: fixed;
+
+  left: 20px;
+  top: 100px;
+
+  width: 58px;
+  height: 58px;
+
+  border: none;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6c63ff,
+      #8e7dff
+    );
+
+  color: white;
+
+  font-size: 27px;
+
+  cursor: pointer;
+
+  z-index: 9000;
+
+  box-shadow:
+    0 8px 25px
+    rgba(0,0,0,0.25);
+
+  transition:
+    transform 0.2s ease;
+
+}
+
+
+.room-chat-button:hover {
+
+  transform:
+    scale(1.08);
+
+}
+
+
+.room-chat-button:active {
+
+  transform:
+    scale(0.94);
+
+}
+
+
+@media (
+  max-width: 600px
+) {
+
+  .room-chat-button {
+
+    right: 15px;
+
+    top: 15px;
+
+    width: 52px;
+    height: 52px;
+
+    border-radius: 16px;
+
+    font-size: 24px;
+
+  }
+
+}

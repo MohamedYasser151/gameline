@@ -1,4 +1,8 @@
-import React, { useEffect } from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
+
 
 import "aframe";
 
@@ -7,7 +11,7 @@ import "./Game.css";
 import GameMenu from "./games/GameMenu";
 import MobileJoystick from "./MobileJoystick";
 
-
+import RoomChat from "./Multiplayer/RoomChat";
 // =====================================================
 // TREE
 // =====================================================
@@ -494,6 +498,14 @@ const Game = ({
   player,
   channel,
 }) => {
+
+
+  const [chatOpen, setChatOpen] =
+  useState(false);
+
+  const [chatMessages, setChatMessages] =
+    useState([]);
+
   // ===================================================
   // PREVENT MOBILE ZOOM
   // ===================================================
@@ -867,9 +879,14 @@ const Game = ({
       </div> */}
 
 
-      {/* ================================================= */}
-      {/* MOBILE JOYSTICK */}
-      {/* ================================================= */}
+<button
+  className="room-chat-button"
+  onClick={() =>
+    setChatOpen(true)
+  }
+>
+  💬
+</button>
 
       <MobileJoystick />
 
@@ -877,7 +894,26 @@ const Game = ({
   channel={channel}
   player={player}
 />
+{/* ================================================= */}
+{/* ROOM CHAT */}
+{/* ================================================= */}
 
+{chatOpen && (
+
+  <RoomChat
+    channel={channel}
+    player={player}
+
+    messages={chatMessages}
+
+    setMessages={setChatMessages}
+
+    onClose={() =>
+      setChatOpen(false)
+    }
+  />
+
+)}
     </div>
   );
 };

@@ -866,3 +866,114 @@
   }
 
 }
+
+/* =====================================================
+   XO SCORE
+===================================================== */
+
+.xo-score {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+
+  margin: 12px auto 15px;
+
+  padding: 10px 16px;
+
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.75);
+
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =====================================================
+   PLAYER SCORE
+===================================================== */
+
+.xo-score-player {
+  min-width: 70px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 6px;
+
+  padding: 8px 12px;
+
+  border-radius: 14px;
+
+  background: rgba(245, 245, 245, 0.9);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.xo-score-player.my-player {
+  transform: scale(1.08);
+
+  box-shadow:
+    0 0 0 3px rgba(108, 99, 255, 0.2);
+}
+
+
+.xo-score-player span {
+  font-size: 20px;
+}
+
+
+.xo-score-player strong {
+  font-size: 18px;
+}
+
+
+.xo-score-player b {
+  min-width: 25px;
+
+  font-size: 20px;
+
+  text-align: center;
+}
+
+
+/* =====================================================
+   VS
+===================================================== */
+
+.xo-score-vs {
+  font-size: 12px;
+
+  font-weight: bold;
+
+  color: #777;
+}
+
+
+/* =====================================================
+   ROUND
+===================================================== */
+
+.xo-round {
+  text-align: center;
+
+  margin-bottom: 8px;
+
+  font-size: 13px;
+
+  color: #777;
+}
+
+
+.xo-round strong {
+  color: #6c63ff;
+
+  font-size: 15px;
+}

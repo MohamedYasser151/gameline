@@ -1,0 +1,758 @@
+/* =====================================================
+   ROOM CHAT
+===================================================== */
+
+.room-chat {
+
+  position: fixed;
+
+  right: 20px;
+  bottom: 90px;
+
+  width: 350px;
+
+  height: min(
+    500px,
+    calc(100dvh - 130px)
+  );
+
+  min-height: 300px;
+
+  background:
+    rgba(255, 255, 255, 0.97);
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 20px 60px
+    rgba(0, 0, 0, 0.28);
+
+  display: flex;
+
+  flex-direction: column;
+
+  overflow: hidden;
+
+  z-index: 99999;
+
+  direction: rtl;
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  /* مهم جدًا */
+  pointer-events: auto;
+
+  /* يمنع مشاكل اللمس */
+  touch-action: auto;
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.room-chat-header {
+
+  flex-shrink: 0;
+
+  min-height: 72px;
+
+  padding:
+    0 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6c63ff,
+      #8e7dff
+    );
+
+  color: white;
+
+}
+
+
+.room-chat-title {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  min-width: 0;
+
+}
+
+
+.room-chat-icon {
+
+  width: 42px;
+  height: 42px;
+
+  min-width: 42px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    rgba(255,255,255,0.2);
+
+  border-radius: 14px;
+
+  font-size: 23px;
+
+}
+
+
+.room-chat-title strong {
+
+  display: block;
+
+  font-size: 17px;
+
+}
+
+
+.room-chat-title small {
+
+  display: block;
+
+  margin-top: 3px;
+
+  opacity: 0.8;
+
+  font-size: 11px;
+
+}
+
+
+.room-chat-close {
+
+  width: 36px;
+  height: 36px;
+
+  min-width: 36px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255,255,255,0.2);
+
+  color: white;
+
+  font-size: 18px;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+}
+
+
+/* =====================================================
+   MESSAGES
+===================================================== */
+
+.room-chat-messages {
+
+  flex: 1;
+
+  min-height: 0;
+
+  padding:
+    15px;
+
+  overflow-y: auto;
+
+  overflow-x: hidden;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f8f9ff,
+      #eef1ff
+    );
+
+  -webkit-overflow-scrolling: touch;
+
+  overscroll-behavior: contain;
+
+}
+
+
+.room-chat-empty {
+
+  min-height: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  color: #777;
+
+}
+
+
+.room-chat-empty > div {
+
+  font-size: 45px;
+
+  margin-bottom: 12px;
+
+}
+
+
+.room-chat-empty strong {
+
+  color: #555;
+
+}
+
+
+.room-chat-empty small {
+
+  margin-top: 5px;
+
+  color: #999;
+
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+.room-chat-message {
+
+  display: flex;
+
+  align-items: flex-end;
+
+  gap: 8px;
+
+  margin-bottom: 13px;
+
+}
+
+
+.room-chat-message.me {
+
+  flex-direction: row-reverse;
+
+}
+
+
+.chat-avatar {
+
+  width: 34px;
+  height: 34px;
+
+  min-width: 34px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: white;
+
+  border-radius: 50%;
+
+  box-shadow:
+    0 3px 10px
+    rgba(0,0,0,0.12);
+
+  font-size: 19px;
+
+}
+
+
+.chat-message-content {
+
+  max-width: 75%;
+
+  min-width: 0;
+
+}
+
+
+.chat-message-name {
+
+  font-size: 11px;
+
+  font-weight: bold;
+
+  color: #6c63ff;
+
+  margin-bottom: 3px;
+
+}
+
+
+.chat-bubble {
+
+  padding:
+    9px 13px;
+
+  border-radius: 16px;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+  word-break: break-word;
+
+  overflow-wrap: anywhere;
+
+}
+
+
+.friend .chat-bubble {
+
+  background: white;
+
+  color: #333;
+
+  border-bottom-right-radius: 4px;
+
+  box-shadow:
+    0 2px 8px
+    rgba(0,0,0,0.08);
+
+}
+
+
+.me .chat-bubble {
+
+  background:
+    #6c63ff;
+
+  color: white;
+
+  border-bottom-left-radius: 4px;
+
+}
+
+
+.chat-message-time {
+
+  margin-top: 3px;
+
+  font-size: 9px;
+
+  color: #aaa;
+
+}
+
+
+/* =====================================================
+   INPUT
+===================================================== */
+
+.room-chat-input {
+
+  flex-shrink: 0;
+
+  padding:
+    12px;
+
+  display: flex;
+
+  gap: 8px;
+
+  background: white;
+
+  border-top:
+    1px solid #eee;
+
+}
+
+
+.room-chat-input input {
+
+  flex: 1;
+
+  min-width: 0;
+
+  height: 44px;
+
+  border:
+    1px solid #ddd;
+
+  border-radius: 14px;
+
+  padding:
+    0 14px;
+
+  font-size: 14px;
+
+  outline: none;
+
+  direction: rtl;
+
+  /* مهم للموبايل */
+  touch-action: manipulation;
+
+}
+
+
+.room-chat-input input:focus {
+
+  border-color:
+    #6c63ff;
+
+}
+
+
+.room-chat-input button {
+
+  width: 44px;
+  height: 44px;
+
+  min-width: 44px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background:
+    #6c63ff;
+
+  color: white;
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+}
+
+
+.room-chat-input button:disabled {
+
+  opacity: 0.4;
+
+  cursor: default;
+
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (
+  max-width: 900px
+) {
+
+  .room-chat {
+
+    right: 15px;
+
+    bottom: 95px;
+
+    width: min(
+      350px,
+      calc(100vw - 30px)
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   MOBILE PORTRAIT
+===================================================== */
+
+@media (
+  max-width: 600px
+) and (
+  orientation: portrait
+) {
+
+  .room-chat {
+
+    right: 10px;
+
+    left: 10px;
+
+    bottom: 105px;
+
+    width: auto;
+
+    height: min(
+      520px,
+      calc(100dvh - 125px)
+    );
+
+    min-height: 280px;
+
+    border-radius: 22px;
+
+  }
+
+
+  .room-chat-header {
+
+    min-height: 62px;
+
+    padding:
+      0 14px;
+
+  }
+
+
+  .room-chat-icon {
+
+    width: 38px;
+    height: 38px;
+
+    min-width: 38px;
+
+    font-size: 20px;
+
+  }
+
+
+  .room-chat-title strong {
+
+    font-size: 15px;
+
+  }
+
+
+  .room-chat-title small {
+
+    font-size: 10px;
+
+  }
+
+
+  .room-chat-messages {
+
+    padding: 12px;
+
+  }
+
+
+  .chat-message-content {
+
+    max-width: 78%;
+
+  }
+
+
+  .chat-bubble {
+
+    font-size: 13px;
+
+  }
+
+}
+
+
+/* =====================================================
+   MOBILE LANDSCAPE
+===================================================== */
+
+@media (
+  max-width: 900px
+) and (
+  orientation: landscape
+) {
+
+  .room-chat {
+
+    right: 10px;
+
+    bottom: 10px;
+
+    width: min(
+      360px,
+      45vw
+    );
+
+    height: min(
+      330px,
+      calc(100dvh - 20px)
+    );
+
+    min-height: 230px;
+
+    border-radius: 18px;
+
+  }
+
+
+  .room-chat-header {
+
+    min-height: 52px;
+
+    padding:
+      0 12px;
+
+  }
+
+
+  .room-chat-icon {
+
+    width: 32px;
+    height: 32px;
+
+    min-width: 32px;
+
+    font-size: 17px;
+
+    border-radius: 10px;
+
+  }
+
+
+  .room-chat-title strong {
+
+    font-size: 14px;
+
+  }
+
+
+  .room-chat-title small {
+
+    display: none;
+
+  }
+
+
+  .room-chat-close {
+
+    width: 32px;
+    height: 32px;
+
+    min-width: 32px;
+
+  }
+
+
+  .room-chat-messages {
+
+    padding: 9px;
+
+  }
+
+
+  .room-chat-message {
+
+    margin-bottom: 8px;
+
+  }
+
+
+  .chat-avatar {
+
+    width: 28px;
+    height: 28px;
+
+    min-width: 28px;
+
+    font-size: 15px;
+
+  }
+
+
+  .chat-bubble {
+
+    padding:
+      7px 10px;
+
+    font-size: 12px;
+
+  }
+
+
+  .chat-message-name {
+
+    font-size: 10px;
+
+  }
+
+
+  .room-chat-input {
+
+    padding: 7px;
+
+  }
+
+
+  .room-chat-input input {
+
+    height: 38px;
+
+    font-size: 13px;
+
+  }
+
+
+  .room-chat-input button {
+
+    width: 38px;
+    height: 38px;
+
+    min-width: 38px;
+
+  }
+
+}
+
+
+/* =====================================================
+   VERY SMALL HEIGHT
+===================================================== */
+
+@media (
+  max-height: 500px
+) and (
+  orientation: landscape
+) {
+
+  .room-chat {
+
+    bottom: 8px;
+
+    height:
+      calc(100dvh - 16px);
+
+  }
+
+
+  .room-chat-header {
+
+    min-height: 46px;
+
+  }
+
+}
